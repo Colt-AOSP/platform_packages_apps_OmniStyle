@@ -108,6 +108,7 @@ public class BrowseWallsActivity extends Activity {
     private ProgressBar mProgressBar;
     private String mFilterTag;
     private int mSortType = SORT_BY_DEFAULT;
+    private MenuItem mMenuItem;
 
     private static final int HTTP_READ_TIMEOUT = 30000;
     private static final int HTTP_CONNECTION_TIMEOUT = 30000;
@@ -357,15 +358,25 @@ public class BrowseWallsActivity extends Activity {
             case R.id.sort_by:
                 if (mSortType == SORT_BY_CREATOR) {
                     mSortType = SORT_BY_DEFAULT;
-                    item.setTitle(getResources().getString(R.string.sort_by_creator_menu));
                 } else if (mSortType == SORT_BY_DEFAULT) {
                     mSortType = SORT_BY_CREATOR;
-                    item.setTitle(getResources().getString(R.string.sort_by_default_menu));
                 }
                 sortWallpapers();
                 break;
         }
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu (Menu menu) {
+        if (mMenuItem != null) {
+            if (mSortType == SORT_BY_CREATOR) {
+                mMenuItem.setTitle(getResources().getString(R.string.sort_by_default_menu));
+            } else if (mSortType == SORT_BY_DEFAULT) {
+                mMenuItem.setTitle(getResources().getString(R.string.sort_by_creator_menu));
+            }
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     private void getAvailableWallpapers() throws XmlPullParserException, IOException {
@@ -854,6 +865,7 @@ public class BrowseWallsActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.sort_menu, menu);
+        mMenuItem = menu.findItem(R.id.sort_by);
         return true;
     }
 
