@@ -177,17 +177,6 @@ public class BrowseHeaderActivity extends Activity {
         return true;
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu (Menu menu) {
-        if (mMenuItem != null) {
-            if (mRemoteMode) {
-                mMenuItem.setTitle(getResources().getString(R.string.header_location_local));
-            } else {
-                mMenuItem.setTitle(getResources().getString(R.string.header_location_online));
-            }
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
 
     private void getAvailableHeaderPacks(Map<String, String> headerMap) {
         Intent i = new Intent();
